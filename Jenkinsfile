@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+   agent any
  
   tools {
   maven 'Maven3'
@@ -10,13 +10,13 @@ pipeline {
       sh 'mvn clean install -f MyWebApp/pom.xml'
       }
     }
-    // stage ('Code Quality') {
-    //   steps {
-    //     withSonarQubeEnv('SonarQube') {
-    //     sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
-    //     }
-    //   }
-    // }
+    stage ('Code Quality') {
+      steps {
+        withSonarQubeEnv('SonarQube') {
+        sh 'mvn -f MyWebApp/pom.xml sonar:sonar'
+        }
+      }
+    }
     stage ('JaCoCo') {
       steps {
       jacoco()
@@ -43,7 +43,7 @@ pipeline {
     stage ('DEV Tomcat Deploy') {
       steps {
       echo "deploying to DEV Env "
-      deploy adapters: [tomcat9(credentialsId: '4df4a1f9-b7c5-45e8-a180-bea3df38f7a5', path: '', url: 'http://ec2-174-129-69-161.compute-1.amazonaws.com:8080/')], contextPath: null, war: '**/*.war'
+      deploy adapters: [tomcat9(credentialsId: '4df4a1f9-b7c5-45e8-a180-bea3df38f7a5', path: '', url: 'http://http://ec2-34-229-179-78.compute-1.amazonaws.com:8080/')], contextPath: null, war: '**/*.war'
       }
     }
     // stage ('Slack Notification') {
